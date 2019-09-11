@@ -1,19 +1,83 @@
-import './App.css'
+import 'bootstrap/dist/css/bootstrap.css';
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import { Route, Link, NavLink, Router, Switch, Redirect } from 'react-router-dom'
+import Users from './views/users'
+import Roles from './views/roles'
+import Home from "./views/home";
+import { Notfound } from "./views/not_found";
+import { PrivateRoute, AuthButton, Login } from "./views/auth";
+import { hot } from 'react-hot-loader/root';
+import { Navbar } from "./views/navbar";
+import history from "./modules/history";
+import { drawerWidth } from "./styles";
+
+
+import clsx from 'clsx';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+
+
+const transition_close = {
+  transition: "margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,width 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms"
+}
+
+const transition_open = {
+  transition: "margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,width 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms",
+  width: `calc(100% - ${drawerWidth}px)`,
+  marginLeft: drawerWidth
+}
+
+const drawerStyle = {
+  width: drawerWidth,
+  flexShrink: 0
+}
+
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      drawerOpen: false
+    }
+  }
+
+  handleDrawerOpen = () => {
+    console.log(this.state)
+    let c = this.state.drawerOpen
+    this.setState({ drawerOpen: !c })
+  }
+
   render() {
-    return <div className="App">
-      <div className="App-heading App-flex">
-        <h2>Welcome to <span className="App-react">React</span></h2>
-      </div>
-      <div className="App-instructions App-flex">
-        <img className="App-logo" src={require('./react.svg')}/>
-        <p>Edit <code>src/App.js</code> and save to hot reload your changes.</p>
-      </div>
-    </div>
+    return (
+      <Router history={history} >
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <PrivateRoute path="/users" component={Users} />
+          <PrivateRoute path="/roles" component={Roles} />
+          <Route path="/login" component={Login} />
+          <Route component={Notfound} />
+        </Switch>
+      </Router>
+    )
   }
 }
 
-export default App
+export default hot(App)
