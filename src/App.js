@@ -3,10 +3,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 import React, { Component } from 'react'
 import { Route, Link, NavLink, Router, Switch, Redirect } from 'react-router-dom'
 import Users from './views/users'
+import {UserEdit} from "./views/UserEdit";
+import { RoleEdit } from "./views/RoleEdit";
 import Roles from './views/roles'
 import Home from "./views/home";
 import { Notfound } from "./views/not_found";
-import { PrivateRoute, AuthButton, Login } from "./views/auth";
+import { PrivateRoute, AuthButton } from "./views/auth";
+import { Login } from "./views/Login";
 import { hot } from 'react-hot-loader/root';
 import { Navbar } from "./views/navbar";
 import history from "./modules/history";
@@ -70,7 +73,10 @@ class App extends Component {
       <Router history={history} >
         <Switch>
           <Route exact path="/" component={Home} />
+          {/* must define childrent route before root route */}
+          <PrivateRoute path="/users/:id" component={UserEdit} /> 
           <PrivateRoute path="/users" component={Users} />
+          <PrivateRoute path="/roles/:id" component={RoleEdit} />
           <PrivateRoute path="/roles" component={Roles} />
           <Route path="/login" component={Login} />
           <Route component={Notfound} />
