@@ -121,7 +121,7 @@ class Roles extends React.Component {
           </FormGroup>
           <PaginationFooter currentPage={this.state.page} changePage={this.changePage} setPage={this.setPage} />
         </Form>
-        <Table hover>
+        <Table hover responsive>
           <thead>
             <tr>
               <th>#</th>
